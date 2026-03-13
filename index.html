@@ -47,10 +47,14 @@
       display: block;
     }
     .logoContainer {
-      background-image: url('https://didgetdev.github.io/logo_website.png');
-      background-size: cover;
-      background-position: center;
+      height: 100vh;
+      position: relative;
     }
+    .logo {
+       position: absolute;
+       left: 50%;
+       transform: translateX(-50%);
+}
     .spacer {
       margin-bottom: 140px;
     }
@@ -67,6 +71,7 @@
   </div>
 
   <div class="logoContainer">
+    <img src="logo_website.png" class="logo">
   </div>
 
   <div id="home" class="content active">
