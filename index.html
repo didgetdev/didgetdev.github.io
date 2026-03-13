@@ -51,6 +51,12 @@
     .content.active {
       display: block;
     }
+    .imageContainer {
+      background-image: url('https://didgetdev.github.io/background_website.png');
+      background-size: cover;
+      background-position: center top;
+      position: relative;
+    }
     .spacer {
       margin-bottom: 140px;
     }
@@ -64,6 +70,10 @@
   <div class="tab-container">
     <div class="tab active" onclick="showTab('home')">Home</div>
     <div class="tab" onclick="showTab('google')">Google Play</div>
+  </div>
+
+  <div class="imageContainer">
+  <img src="background_website.png" class="image">
   </div>
 
   <div id="home" class="content active">
