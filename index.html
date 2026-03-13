@@ -55,7 +55,12 @@
        position: relative;
        left: 50%;
        transform: translateX(-50%);
+       max-width: 100vw;   /* scales to 80% of the viewport width */
+       height: auto;      /* keeps proportions */
+       display: block;
+       margin: 0 auto;
     }
+
     .spacer {
       margin-bottom: 20px;
     }
