@@ -154,7 +154,7 @@
     status.textContent = "Processing...";
 
     // 1) Lag Payment Intent på serveren
-    const res = await fetch("https://didgetsphere.onrender.com", {
+    const res = await fetch("https://didgetsphere.onrender.com/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: amount * 100 }) // NOK → øre
