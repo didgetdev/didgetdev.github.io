@@ -128,7 +128,20 @@
 <script>
   const stripe = Stripe("pk_live_51T9Ph9F7bXgQogmGTSCm4ZWuJvOB2jnUSHMlx9ZYwsE4dntatjPn0sGnVg5elRuEJoQENleGSY2Wc3167Ox62niE007zzz5duB"); // pk_live_xxx
   const elements = stripe.elements();
-  const card = elements.create("card");
+  const card = elements.create("card", {
+  style: {
+    base: {
+      color: "lightgray",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "gray"
+      }
+    },
+    invalid: {
+      color: "#ff6b6b"
+    }
+  }
+});
   card.mount("#card-element");
 
   document.getElementById("donate-button").addEventListener("click", async () => {
