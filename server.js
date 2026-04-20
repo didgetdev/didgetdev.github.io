@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const stripe = new Stripe("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"); // SK_xxx
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.post("/create-payment-intent", async (req, res) => {
   const { amount } = req.body;
