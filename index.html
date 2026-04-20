@@ -87,11 +87,21 @@
     <p>Contact:</p>
     <a href="mailto:developer@didgetsphere.com" style="color: lightgray;">developer@didgetsphere.com</a>
 <div class="spacer2"></div>
-<p>Donate:</p>
-<div class="spacer"></div>
-<p>Bank Number: 1207 17 54004</p>
-<p>IBAN Number: NO55 1207 1754 004</p>
-<p>BIC/SWIFT Number: DNBANOKKXXX</p>
+<div id="donate-box" style="margin-top:40px;">
+  <h3>Donate with card</h3>
+
+  <label>Amount (NOK):</label>
+  <input id="amount" type="number" min="1" value="50" style="padding:5px;">
+
+  <div id="card-element" style="margin-top:15px;"></div>
+
+  <button id="donate-button" style="margin-top:20px;padding:10px 20px;">
+    Donate
+  </button>
+
+  <p id="donate-status" style="margin-top:15px;color:lightgray;"></p>
+</div>
+
 </div>
   <div id="google" class="content">
 <div class="spacer"></div><a href="https://play.google.com/store/apps/details?id=com.didgetbit.randomnumbergenerator&pcampaignid=web_share" 
@@ -113,6 +123,44 @@
       document.getElementById(tabId).classList.add('active');
     }
   </script>
+
+ <script src="https://js.stripe.com/v3/"></script>
+<script>
+  const stripe = Stripe("pk_live_51T9Ph9F7bXgQogmGTSCm4ZWuJvOB2jnUSHMlx9ZYwsE4dntatjPn0sGnVg5elRuEJoQENleGSY2Wc3167Ox62niE007zzz5duB"); // pk_live_xxx
+  const elements = stripe.elements();
+  const card = elements.create("card");
+  card.mount("#card-element");
+
+  document.getElementById("donate-button").addEventListener("click", async () => {
+    const amount = document.getElementById("amount").value;
+    const status = document.getElementById("donate-status");
+    status.textContent = "Processing...";
+
+    // 1) Lag Payment Intent på serveren
+    const res = await fetch("http://localhost:3000/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: amount * 100 }) // NOK → øre
+    });
+
+    const data = await res.json();
+
+    // 2) Fullfør betaling med Stripe Elements
+    const result = await stripe.confirmCardPayment(data.clientSecret, {
+      payment_method: {
+        card: card
+      }
+    });
+
+    if (result.error) {
+      status.textContent = "Error: " + result.error.message;
+    } else {
+      if (result.paymentIntent.status === "succeeded") {
+        status.textContent = "Thank you for your donation!";
+      }
+    }
+  });
+</script>
 
 </body>
 </html>
