@@ -11,6 +11,8 @@ app.use(cors());
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+console.log("Loaded Stripe key:", process.env.STRIPE_SECRET_KEY ? "OK" : "NOT FOUND");
+
 app.post("/create-payment-intent", async (req, res) => {
   const { amount } = req.body;
 
