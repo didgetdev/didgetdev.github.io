@@ -163,7 +163,7 @@
     const data = await res.json();
 
     // 2) Fullfør betaling med Stripe Elements
-    const result = await stripe.confirmCardPayment(data.clientSecret, {
+  const result = await stripe.confirmCardPayment(data.clientSecret, {
   payment_method: {
     card: card
   }
@@ -174,7 +174,10 @@ if (result.error) {
   return;
 }
 
-if (result.paymentIntent.status === "requires_action") {
+const intent = result.paymentIntent;
+
+// 1) SCA / 3D Secure
+if (intent.status === "requires_action") {
   const actionResult = await stripe.confirmCardPayment(data.clientSecret, {
     payment_method: {
       card: card
@@ -192,11 +195,30 @@ if (result.paymentIntent.status === "requires_action") {
   }
 }
 
-if (result.paymentIntent.status === "succeeded") {
-  status.textContent = "Thank you for your donation!";
+// 2) Stripe trenger et ekstra confirm-kall
+if (intent.status === "requires_confirmation") {
+  const confirmAgain = await stripe.confirmCardPayment(data.clientSecret, {
+    payment_method: {
+      card: card
+    }
+  });
+
+  if (confirmAgain.error) {
+    status.textContent = "Error: " + confirmAgain.error.message;
+    return;
+  }
+
+  if (confirmAgain.paymentIntent.status === "succeeded") {
+    status.textContent = "Thank you for your donation!";
+    return;
+  }
 }
 
-  });
+// 3) Ferdig
+if (intent.status === "succeeded") {
+  status.textContent = "Thank you for your donation!";
+}
+});
 </script>
 
 </body>
