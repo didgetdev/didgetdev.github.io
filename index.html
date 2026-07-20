@@ -164,18 +164,38 @@
 
     // 2) Fullfør betaling med Stripe Elements
     const result = await stripe.confirmCardPayment(data.clientSecret, {
-      payment_method: {
-        card: card
-      }
-    });
+  payment_method: {
+    card: card
+  }
+});
 
-    if (result.error) {
-      status.textContent = "Error: " + result.error.message;
-    } else {
-      if (result.paymentIntent.status === "succeeded") {
-        status.textContent = "Thank you for your donation!";
-      }
+if (result.error) {
+  status.textContent = "Error: " + result.error.message;
+  return;
+}
+
+if (result.paymentIntent.status === "requires_action") {
+  const actionResult = await stripe.confirmCardPayment(data.clientSecret, {
+    payment_method: {
+      card: card
     }
+  });
+
+  if (actionResult.error) {
+    status.textContent = "Error: " + actionResult.error.message;
+    return;
+  }
+
+  if (actionResult.paymentIntent.status === "succeeded") {
+    status.textContent = "Thank you for your donation!";
+    return;
+  }
+}
+
+if (result.paymentIntent.status === "succeeded") {
+  status.textContent = "Thank you for your donation!";
+}
+
   });
 </script>
 
