@@ -84,7 +84,7 @@
     <div class="spacer2"></div>
     <p>We deliver server-driven iOS and Android solutions, enabling secure customer-to-merchant payments.</p>
     <div class="spacer2"></div>
-    <p>If you choose to donate, see 'Donate' section for donation agreement.</p>
+    <p>If you choose to donate, see 'Donate' section for donation agreement. The process of the donation may take up to 1 minute.</p>
    <div class="spacer2"></div>
 <div id="donate-box" style="margin-top:40px;">
   <h3>Donate:</h3>
@@ -92,8 +92,8 @@
   <label>Amount (NOK, min. 1000 NOK):</label>
   <input id="amount" 
        type="number" 
-       min="10" 
-       value="10"
+       min="1000" 
+       value="1000"
        style="padding:5px; width:60px; box-sizing:border-box;">
 
   <div id="card-element" style="margin-top:15px;"></div>
@@ -109,14 +109,20 @@
   background:rgba(0,0,0,0.5); z-index:9999;
 ">
   <div style="
-    background:white; padding:20px; width:300px; margin:15% auto;
-    border-radius:10px; text-align:center;
+    background:black;
+    padding:20px;
+    width:300px;
+    margin:15% auto;
+    border-radius:10px;
+    text-align:center;
+    color:white;
   ">
-    <p>Please confirm that you have read and agrees with the donation agreement in 'Donation' section.</p>
+    <p>Please confirm that you have read and agrees with the donation agreement in the 'Donation' section.</p>
     <button id="confirm-donate" style="margin-top:10px;">I Agree</button>
     <button id="cancel-donate" style="margin-top:10px;">Cancel</button>
   </div>
-</div>
+ </div>
+
 
 </div>
 
