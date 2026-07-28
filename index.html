@@ -103,6 +103,21 @@
   </button>
 
   <p id="donate-status" style="margin-top:15px;color:lightgray;"></p>
+ 
+ <div id="donate-confirm-modal" style="
+  display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.5); z-index:9999;
+">
+  <div style="
+    background:white; padding:20px; width:300px; margin:15% auto;
+    border-radius:10px; text-align:center;
+  ">
+    <p>Please confirm that you have read and agrees with the donation agreement in 'Donation' section.</p>
+    <button id="confirm-donate" style="margin-top:10px;">I Agree</button>
+    <button id="cancel-donate" style="margin-top:10px;">Cancel</button>
+  </div>
+</div>
+
 </div>
 
 </div>
@@ -130,21 +145,8 @@
    Random Number Generator
 </a></p>
 </div>
-
-  <script>
-    function showTab(tabId) {
-      const tabs = document.querySelectorAll('.tab');
-      const contents = document.querySelectorAll('.content');
-
-      tabs.forEach(tab => tab.classList.remove('active'));
-      contents.forEach(content => content.classList.remove('active'));
-
-      document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
-      document.getElementById(tabId).classList.add('active');
-    }
-  </script>
-
- <script src="https://js.stripe.com/v3/"></script>
+ 
+<script src="https://js.stripe.com/v3/"></script>
 <script>
   const stripe = Stripe("pk_live_51T9Ph9F7bXgQogmGTSCm4ZWuJvOB2jnUSHMlx9ZYwsE4dntatjPn0sGnVg5elRuEJoQENleGSY2Wc3167Ox62niE007zzz5duB"); // pk_live_xxx
   const elements = stripe.elements();
@@ -163,9 +165,24 @@
   }
 });
   card.mount("#card-element");
+</script>
 
-  document.getElementById("donate-button").addEventListener("click", async () => {
-    const amount = document.getElementById("amount").value;
+<script>
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.content');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      contents.forEach(content => content.classList.remove('active'));
+
+      document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+</script>
+
+<script>
+  async function triggerDonation() {
+   const amount = document.getElementById("amount").value;
     const status = document.getElementById("donate-status");
     status.textContent = "Processing...";
 
@@ -234,7 +251,28 @@ if (intent.status === "requires_confirmation") {
 if (intent.status === "succeeded") {
   status.textContent = "Thank you for your donation!";
 }
-});
+}
+</script>
+
+<script>
+  const donateBtn = document.getElementById("donate-button");
+  const modal = document.getElementById("donate-confirm-modal");
+  const confirmBtn = document.getElementById("confirm-donate");
+  const cancelBtn = document.getElementById("cancel-donate");
+
+  donateBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    modal.style.display = "block";
+  });
+
+  cancelBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  confirmBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+    triggerDonation();   // runs your Stripe logic
+  });
 </script>
 
 </body>
