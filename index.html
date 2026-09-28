@@ -208,7 +208,7 @@
     const res = await fetch("https://didgetsphere.onrender.com/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: amount * 100 }) // NOK → øre
+      body: JSON.stringify({ amount: amount * 100 }) // USD → cents
     });
 
     const data = await res.json();
