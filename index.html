@@ -74,8 +74,6 @@
 <body>
 
   <div class="tab-container">
-    <div class="tab active" onclick="showTab('home')">Home</div>
-    <div class="tab" onclick="showTab('donate')">Donate</div>
     <div class="tab" onclick="showTab('google')">Google Play</div>
     <div class="tab" onclick="showTab('contact')">Contact</div>
   </div>
@@ -88,68 +86,8 @@
     <div class="spacer2"></div>
     <p>We deliver server-driven iOS and Android solutions, enabling secure customer-to-merchant payments.</p>
     <div class="spacer3"></div>
-   <p>The donation process may take up to 1 minute. Please dont close the window before completion, you will see 'Thank you for your donation!'.</p>
-   <div class="spacer2"></div>
-<div id="donate-box" style="margin-top:40px;">
-  <h3>Donate:</h3>
-
-  <label>Amount (USD, min. 100 USD):</label>
-  <input id="amount" 
-       type="number" 
-       min="100" 
-       max="9999"
-       value="100"
-       style="padding:5px; width:60px; box-sizing:border-box;">
-
-  <div id="card-element" style="margin-top:15px;"></div>
-
-  <button id="donate-button" style="margin-top:20px;padding:10px 20px;border-radius:58px;">
-    Donate
-  </button>
-
-  <p id="donate-status" style="margin-top:15px;color:lightgray;"></p>
- 
- <div id="donate-confirm-modal" style="
-  display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.5); z-index:9999;
-">
-  <div style="
-    background:black;
-    padding:20px;
-    width:300px;
-    margin:15% auto;
-    border-radius:10px;
-    text-align:center;
-    color:white;
-  ">
-    <p>I confirm that I have read and agree to the Donation Agreement in the 'Donate' section. I understand that the donation is unconditional, non-refundable, and fully owned by DIDGETSPHERE.</p>
-    <button id="confirm-donate" style="margin-top:10px;">I Agree</button>
-    <button id="cancel-donate" style="margin-top:10px;">Cancel</button>
-  </div>
- </div>
-
-
 </div>
 
-</div>
-<div id="donate" class="content">
-<div class="spacer"></div>
-   <p>Donation Agreement:</p>
-   <div class="spacer3"></div>
-   <p>By donating, you confirm the following:</p>
-   <div class="spacer2"></div>
-   <p>1. The donation is voluntary, unconditional, and non‑refundable.</p>
-   <div class="spacer2"></div>
-   <p>2. You receive no financial rights, ownership, profit, or future value from the donation.</p>
-   <div class="spacer2"></div>
-   <p>3. All donated funds become the full property of DIDGETSPHERE MØLLER WARMEDAL (“DIDGETSPHERE”) immediately upon payment.</p>
-   <div class="spacer2"></div>
-   <p>4. DIDGETSPHERE may use the funds freely, including for operations, development, or investment.</p>
-   <div class="spacer2"></div>
-   <p>5. The donation is not an investment, purchase, or payment for services</p>
-   <div class="spacer2"></div>
-   <p>6. By clicking "I Agree" (Donate button), you accept this Agreement and waive all claims to the donation.</p>
-   <div class="spacer2"></div>
 </div>
 <div id="google" class="content">
 <div class="spacer"></div><a href="https://play.google.com/store/apps/details?id=com.didgetbit.randomnumbergenerator&pcampaignid=web_share" 
