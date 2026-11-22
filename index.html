@@ -60,6 +60,23 @@
        display: block;
     }
 
+   #lightningCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .content,
+    .tab-container,
+    .logoContainer {
+       position: relative;
+       z-index: 1;
+    }
+
     .spacer {
       margin-bottom: 20px;
     }
@@ -72,7 +89,8 @@
   </style>
 </head>
 <body>
-
+<canvas id="lightningCanvas"></canvas>
+ 
   <div class="tab-container">
     <div class="tab" onclick="showTab('google')">Google Play</div>
     <div class="tab" onclick="showTab('contact')">Contact</div>
@@ -134,6 +152,100 @@
       document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
       document.getElementById(tabId).classList.add('active');
     }
+</script>
+
+<script>
+const canvas = document.getElementById("lightningCanvas");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let flashes = [];
+
+function createLightning() {
+    const startX = Math.random() * canvas.width;
+    const points = [];
+
+    let x = startX;
+    let y = 0;
+
+    points.push({x, y});
+
+    while (y < canvas.height * 0.8) {
+        x += (Math.random() - 0.5) * 80;
+        y += 20 + Math.random() * 40;
+        points.push({x, y});
+    }
+
+    flashes.push({
+        points,
+        alpha: 1
+    });
+}
+
+function drawLightning(points, alpha) {
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+
+    for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+    }
+
+    ctx.strokeStyle = `rgba(180,220,255,${alpha})`;
+    ctx.lineWidth = 3;
+    ctx.shadowBlur = 30;
+    ctx.shadowColor = "#66ccff";
+    ctx.stroke();
+
+    ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = flashes.length - 1; i >= 0; i--) {
+        const bolt = flashes[i];
+
+        drawLightning(bolt.points, bolt.alpha);
+
+        bolt.alpha -= 0.03;
+
+        if (bolt.alpha <= 0) {
+            flashes.splice(i, 1);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+// Random lightning strikes
+function lightningLoop() {
+    createLightning();
+
+    // Chance of multiple flashes
+    if (Math.random() > 0.5) {
+        setTimeout(createLightning, 120);
+    }
+
+    if (Math.random() > 0.7) {
+        setTimeout(createLightning, 250);
+    }
+
+    const nextStrike = 1000 + Math.random() * 4000;
+    setTimeout(lightningLoop, nextStrike);
+}
+
+lightningLoop();
 </script>
 
 </script>
